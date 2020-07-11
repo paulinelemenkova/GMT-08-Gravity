@@ -34,7 +34,7 @@ gmt grdimage gravHT.grd -Ccolors.cpt -R19/37/30.5/41.5 -JM6i -P -I+a15+ne0.75 -X
 gmt psbasemap -R -J \
     -Bpx4f1a1 -Bpyg4f1a1 -Bsxg2 -Bsyg2 \
     --MAP_TITLE_OFFSET=0.8c \
-    -B+t"Marine free-air gravity anomaly for the Aegean Sea region" -O -K >> $ps
+    -B+t"Marine free-air gravity anomaly for the Eastern Mediterranean Sea region" -O -K >> $ps
         
 # Add isolines
 gmt grdcontour gravHT.grd -R -J -C50 -W0.1p -O -K >> $ps
