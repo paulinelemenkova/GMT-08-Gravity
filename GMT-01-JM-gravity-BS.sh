@@ -59,7 +59,7 @@ gmt psscale -Dg169/60.0+w10.0c/0.4c+v+o0.3/0i+ml -R -J -Ccolors.cpt \
     --FONT_LABEL=6p,Helvetica,dimgray \
     --FONT_ANNOT_PRIMARY=6p,Helvetica,black \
     -B10f2+l"Color scale: Haxby: Bill Haxby's color scheme for geoid & gravity [C=RGB])" \
-    -I0.2 -By+lm -O -K >> $ps
+    -I0.2 -By+lmGal -O -K >> $ps
 
 # Texts
 gmt pstext -R -J -N -O -K \
