@@ -24,7 +24,8 @@ gdalinfo gravNS.grd -stats
 # Minimum=-77.590, Maximum=200.011
 
 # Select a color palette
-gmt makecpt -Chaxby.cpt -V -T-78/201/1 > colors.cpt
+#gmt makecpt -Chaxby.cpt -V -T-78/201/1 > colors.cpt
+gmt makecpt -Chaxby.cpt -V -T-78/100/1 > colors.cpt
 
 # Generate a file
 ps=Grav_NS.ps
@@ -42,7 +43,7 @@ gmt psbasemap -R -J \
     -B+t"Marine free-air gravity anomaly: North Sea, Atlantic Ocean" -O -K >> $ps
     
 # Add shorelines
-gmt grdcontour gravNS.grd -R -J -C50 -Wthin,blue -O -K >> $ps
+gmt grdcontour gravNS.grd -R -J -C50 -Wthinner,dimgray -O -K >> $ps
 
 # Add coastlines, borders, rivers
 gmt pscoast -R -J -P -Ia/thinner,blue -Na -N1/thin,red -Wthin -Df -O -K >> $ps
@@ -64,11 +65,11 @@ gmt psscale -Dg-7/48+w14.0c/0.4c+h+o0.3/0i+ml -R -J -Ccolors.cpt \
 
 # Texts
 gmt pstext -R -J -N -O -K \
--F+jTL+f7p,Helvetica,white+jLB  >> $ps << EOF
+-F+jTL+f7p,Helvetica,brown+jLB -Gwhite@40 >> $ps << EOF
 6.1 50.9 Luxemburg
 EOF
 gmt pstext -R -J -N -O -K \
--F+jTL+f9p,Helvetica,white+jLB >> $ps << EOF
+-F+jTL+f9p,Helvetica,brown+jLB -Gwhite@40 >> $ps << EOF
 8.2 56.2 DENMARK
 6.5 61 NORWAY
 -3.5 55 UNITED
@@ -77,15 +78,15 @@ gmt pstext -R -J -N -O -K \
 1.8 50.1 FRANCE
 EOF
 gmt pstext -R -J -N -O -K \
--F+jTL+f9p,Helvetica,white+jLB+a-355 >> $ps << EOF
+-F+jTL+f9p,Helvetica,brown+jLB+a-355 -Gwhite@40 >> $ps << EOF
 9.5 51 GERMANY
 EOF
 gmt pstext -R -J -N -O -K \
--F+jTL+f8p,Helvetica,white+jLB+a-315 >> $ps << EOF
+-F+jTL+f8p,Helvetica,brown+jLB+a-315 -Gwhite@40 >> $ps << EOF
 4.5 51.5 NETHERLANDS
 EOF
 gmt pstext -R -J -N -O -K \
--F+jTL+f9p,Helvetica,white+jLB+a-355 >> $ps << EOF
+-F+jTL+f9p,Helvetica,brown+jLB+a-355 -Gwhite@40 >> $ps << EOF
 12.1 59 SWEDEN
 EOF
 
