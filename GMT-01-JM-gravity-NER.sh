@@ -37,14 +37,14 @@ gmt psbasemap -R -J \
     --MAP_TITLE_OFFSET=0.8c \
     --FONT_TITLE=14p,Helvetica,black \
     --FONT_ANNOT_PRIMARY=7p,Helvetica,black \
-    -B+t"Marine free-air vertical gravity anomaly: Ninety East Ridge region, Indian Ocean" -O -K >> $ps
+    -B+t"Marine free-air gravity anomaly: Ninety East Ridge region, Indian Ocean" -O -K >> $ps
     
 # Add shorelines
 gmt grdcontour gravNER.grd -R -J -C30 -W0.1p -O -K >> $ps
     
 # Add scale, directional rose
 gmt psbasemap -R -J \
-    --FONT_LABEL=8p,Helvetica,black \
+    --FONT_LABEL=9p,Helvetica,black \
     --FONT_ANNOT_PRIMARY=8p,Helvetica,black \
     --MAP_LABEL_OFFSET=0.1c \
     -Lx12.7c/-2.5c+c50+w1000k+l"Mercator projection. Scale: km"+f \
@@ -142,8 +142,8 @@ gmt pstext -R -J -N -O -K \
 86.0 -4.0 85\232E Ridge
 EOF
 gmt pstext -R -J -N -O -K \
--F+jTL+f11p,Helvetica,white+jLB+a-53 >> $ps << EOF
-95.5 0.5 Sunda Trench
+-F+jTL+f11p,Helvetica,black+jLB+a-53 -Gwhite@40 >> $ps << EOF
+95.4 0.5 S u n d a  T r e n c h
 EOF
 gmt pstext -R -J -N -O -K \
 -F+jTL+f12p,Helvetica,black+jLB+a-10 >> $ps << EOF
@@ -159,11 +159,11 @@ EOF
 
 # Add legend
 gmt psscale -Dg65/-38+w15.2c/0.4c+h+o0.0/0i+ml -R -J -Ccolors.cpt \
-    --FONT_LABEL=7p,Helvetica,black \
+    --FONT_LABEL=9p,Helvetica,black \
     --MAP_LABEL_OFFSET=0.1c \
     --FONT_ANNOT_PRIMARY=6p,Helvetica,black \
     -Bg5f2a10+l"Color scale 'haxby': Haxby: Bill Haxby's color scheme for geoid & gravity [C=RGB]" \
-    -I0.2 -By+lm -O -K >> $ps
+    -I0.2 -By+lmGal -O -K >> $ps
 
 # Add GMT logo
 gmt logo -Dx6.2/-3.3+o0.1i/0.1i+w2c -O -K >> $ps
