@@ -35,7 +35,7 @@ gmt psscale -Dg36.8/29.0+w16.1c/0.15i+v+o0.3/0i+ml -R -J -Ccolors.cpt \
     --FONT_ANNOT_PRIMARY=7p,0,black \
     --FONT_TITLE=6p,0,black \
 	-Bg50f10a50+l"Color scale 'turbo': Google's Improved Rainbow Colormap for Visualization [C=RGB] -162/418)" \
-	-I0.2 -By+lm -O -K >> $ps
+	-I0.2 -By+lmGal -O -K >> $ps
     
 # Add isolines
 gmt grdcontour iq_grav.nc -R -J -C25 -Wthinnest -O -K >> $ps
@@ -100,11 +100,11 @@ gmt pstext -R -J -N -O -K \
 48.3 29.2 Gulf
 EOF
 gmt pstext -R -J -N -O -K \
--F+f12p,13,brown4+jLB >> $ps << EOF
-44.1 33.1 Baghdad
+-F+f12p,13,white+jLB >> $ps << EOF
+44.6 33.1 Baghdad
 EOF
 gmt psxy -R -J -Ss -W0.5p -Gred -O -K << EOF >> $ps
-44.0 33.0  0.4c
+44.5 33.0  0.4c
 EOF
 gmt pstext -R -J -N -O -K \
 -F+f10p,13,black+jLB >> $ps << EOF
@@ -115,10 +115,10 @@ gmt psxy -R -J -Sc -W0.5p -Gyellow -O -K << EOF >> $ps
 EOF
 gmt pstext -R -J -N -O -K \
 -F+f10p,13,white+jLB >> $ps << EOF
-47.1 30.1 Basra
+47.3 30.4 Basra
 EOF
 gmt psxy -R -J -Sc -W0.5p -Gyellow -O -K << EOF >> $ps
-47.0 30.0 0.20c
+47.5 30.7 0.20c
 EOF
 gmt pstext -R -J -N -O -K \
 -F+f10p,13,black+jLB >> $ps << EOF
@@ -164,7 +164,7 @@ gmt psxy -R -J -Sc -W0.5p -Gyellow -O -K << EOF >> $ps
 EOF
 gmt pstext -R -J -N -O -K \
 -F+f10p,13,white+jLB >> $ps << EOF
-46.8 30.7 Al Amarah
+46.8 30.8 Al Amarah
 EOF
 gmt psxy -R -J -Sc -W0.5p -Gyellow -O -K << EOF >> $ps
 47.0 31.0 0.20c
@@ -191,7 +191,7 @@ gmt pstext -R -J -N -O -K \
 EOF
 gmt pstext -R -J -N -O -K \
 -F+jTL+f17p,25,khaki1+jLB >> $ps << EOF
-41.8 33.5 I      R      A      Q
+42.3 33.5 I      R      A      Q
 EOF
 gmt pstext -R -J -N -O -K \
 -F+f12p,13,darkorange4+jLB >> $ps << EOF
@@ -199,12 +199,29 @@ gmt pstext -R -J -N -O -K \
 39.8 32.7 Desert
 EOF
 gmt pstext -R -J -N -O -K \
--F+f12p,13,orangered4+jLB+a-45 -Gwhite@30 >> $ps << EOF
+-F+f12p,13,orangered4+jLB+a-45 -Gwhite@45 >> $ps << EOF
 43.5 37.1 Jabal Hamrin
 EOF
 gmt pstext -R -J -N -O -K \
 -F+f12p,13,darkorange4+jLB >> $ps << EOF
 41.6 35.2 Al-Jazira
+EOF
+gmt pstext -R -J -N -O -K \
+-F+jTL+f12p,13,red4+jLB+a-47 -Gwhite@45 >> $ps << EOF
+45.3 37.0 Z a g r o s
+47.0 35.4 M o u n t a i n s
+EOF
+gmt pstext -R -J -N -O -K \
+-F+f12p,13,tomato4+jLB >> $ps << EOF
+42.1 29.2 Ad-Dibdiba
+EOF
+gmt pstext -R -J -N -O -K \
+-F+jTL+f10p,25,white+jLB+a-330 >> $ps << EOF
+47.0 29.2 KUWAIT
+EOF
+gmt pstext -R -J -N -O -K \
+-F+f11p,13,darkorange4+jLB+a-350 >> $ps << EOF
+41.4 36.1 Jabal Sinjar
 EOF
 
 # Add GMT logo
