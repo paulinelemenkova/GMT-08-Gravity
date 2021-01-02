@@ -1,0 +1,220 @@
+#!/bin/sh
+# Purpose: shaded relief grid raster map from the GEBCO 15 arc sec global data set (here: Iraq)
+# GMT modules: gmtset, gmtdefaults, grdcut, makecpt, grdimage, psscale, grdcontour, psbasemap, gmtlogo, psconvert
+
+# GMT set up
+gmt set FORMAT_GEO_MAP=dddF \
+    MAP_FRAME_PEN=dimgray \
+    MAP_FRAME_WIDTH=0.1c \
+    MAP_TITLE_OFFSET=1c \
+    MAP_ANNOT_OFFSET=0.1c \
+    MAP_TICK_PEN_PRIMARY=thinner,dimgray \
+    MAP_GRID_PEN_PRIMARY=thin,white \
+    MAP_GRID_PEN_SECONDARY=thinnest,white \
+    FONT_TITLE=12p,Palatino-Roman,black \
+    FONT_ANNOT_PRIMARY=7p,0,dimgray \
+    FONT_LABEL=7p,0,dimgray \
+# Overwrite defaults of GMT
+gmtdefaults -D > .gmtdefaults
+
+# Extract subset of img file in Mercator or Geographic format
+gmt img2grd grav_27.1.img -R38/49/29/38 -Ggrav.grd -T1 -I1 -E -S0.1 -V
+gmt grdcut grav.grd -R38/49/29/38 -Giq_grav.nc
+gdalinfo -stats iq_grav.nc
+# Minimum=-124.945, Maximum=327.724
+gmt makecpt -Cturbo -T-125/328/1 > colors.cpt
+# gmt makecpt --help
+
+ps=Grav_IQ.ps
+# Make raster image
+gmt grdimage iq_grav.nc -Cturbo -R38/49/29/38 -JM6.5i -I+a15+ne0.75 -Xc -K > $ps
+
+# Add legend
+gmt psscale -Dg36.8/29.0+w16.1c/0.15i+v+o0.3/0i+ml -R -J -Ccolors.cpt \
+	--FONT_LABEL=7p,0,black \
+    --FONT_ANNOT_PRIMARY=7p,0,black \
+    --FONT_TITLE=6p,0,black \
+	-Bg50f10a50+l"Color scale 'turbo': Google's Improved Rainbow Colormap for Visualization [C=RGB] -162/418)" \
+	-I0.2 -By+lm -O -K >> $ps
+    
+# Add isolines
+gmt grdcontour iq_grav.nc -R -J -C25 -Wthinnest -O -K >> $ps
+
+# Add coastlines, borders, rivers
+gmt pscoast -R -J -P \
+    -Ia/thinner,blue -Na -N1/thickest,red -W0.1p -Df -O -K >> $ps
+    
+# Add grid
+gmt psbasemap -R -J \
+    --MAP_FRAME_AXES=wESN \
+    --MAP_TITLE_OFFSET=1.0c \
+    --FONT_ANNOT_PRIMARY=7p,0,black \
+    --FONT_LABEL=7p,25,black \
+    --FONT_TITLE=12p,25,black \
+    -Bpxg4f1a2 -Bpyg2f1a2 -Bsxg2 -Bsyg1 \
+    -B+t"Free-air gravity anomaly for Iraq" -O -K >> $ps
+    
+# Add scale, directional rose
+gmt psbasemap -R -J \
+    --FONT=7p,0,black \
+    --FONT_ANNOT_PRIMARY=6p,0,black \
+    --MAP_TITLE_OFFSET=0.1c \
+    --MAP_ANNOT_OFFSET=0.1c \
+    -Lx14.5c/-1.3c+c50+w200k+l"Mercator projection. Scale (km)"+f \
+    -UBL/-15p/-38p -O -K >> $ps
+
+gmt psbasemap -R -J \
+    --FONT_TITLE=7p,0,white \
+    --MAP_TITLE_OFFSET=0.1c \
+    -Tdx1.0c/0.4c+w0.3i+f2+l+o0.15i \
+    -O -K >> $ps
+
+# Texts
+gmt pstext -R -J -N -O -K \
+-F+jTL+f11p,26,azure+jLB+a-55 >> $ps << EOF
+46.2 32.4 Tigris
+EOF
+gmt pstext -R -J -N -O -K \
+-F+jTL+f11p,26,azure+jLB+a-15 >> $ps << EOF
+44.7 31.1 Euphrates
+EOF
+#
+gmt pstext -R -J -N -O -K \
+-F+jTL+f9p,26,blue2+jLB >> $ps << EOF
+42.5 32.7 Buhayrat
+42.5 32.5 Ar Razazah
+EOF
+gmt pstext -R -J -N -O -K \
+-F+jTL+f9p,26,blue2+jLB >> $ps << EOF
+42.6 33.3 Lake
+42.6 33.1 Habbaniyah
+EOF
+gmt pstext -R -J -N -O -K \
+-F+jTL+f9p,26,blue2+jLB >> $ps << EOF
+43.3 34.2 Buhayrat
+43.3 34.0 ath-Tharthar
+EOF
+gmt pstext -R -J -N -O -K \
+-F+jTL+f10p,0,white+jLB >> $ps << EOF
+48.1 29.5 Persian
+48.3 29.2 Gulf
+EOF
+gmt pstext -R -J -N -O -K \
+-F+f12p,13,brown4+jLB >> $ps << EOF
+44.1 33.1 Baghdad
+EOF
+gmt psxy -R -J -Ss -W0.5p -Gred -O -K << EOF >> $ps
+44.0 33.0  0.4c
+EOF
+gmt pstext -R -J -N -O -K \
+-F+f10p,13,black+jLB >> $ps << EOF
+43.1 36.1 Mosul
+EOF
+gmt psxy -R -J -Sc -W0.5p -Gyellow -O -K << EOF >> $ps
+43.0 36.0 0.20c
+EOF
+gmt pstext -R -J -N -O -K \
+-F+f10p,13,white+jLB >> $ps << EOF
+47.1 30.1 Basra
+EOF
+gmt psxy -R -J -Sc -W0.5p -Gyellow -O -K << EOF >> $ps
+47.0 30.0 0.20c
+EOF
+gmt pstext -R -J -N -O -K \
+-F+f10p,13,black+jLB >> $ps << EOF
+43.7 35.1 Kirkuk
+EOF
+gmt psxy -R -J -Sc -W0.5p -Gyellow -O -K << EOF >> $ps
+44.0 35.0 0.20c
+EOF
+gmt pstext -R -J -N -O -K \
+-F+f10p,13,black+jLB >> $ps << EOF
+44.1 36.1 Erbil
+EOF
+gmt psxy -R -J -Sc -W0.5p -Gyellow -O -K << EOF >> $ps
+44.0 36.0 0.20c
+EOF
+gmt pstext -R -J -N -O -K \
+-F+f10p,13,black+jLB >> $ps << EOF
+44.1 32.1 Najaf
+EOF
+gmt psxy -R -J -Sc -W0.5p -Gyellow -O -K << EOF >> $ps
+44.2 32.0 0.20c
+EOF
+gmt pstext -R -J -N -O -K \
+-F+f10p,13,black+jLB >> $ps << EOF
+44.3 32.5 Karbala
+EOF
+gmt psxy -R -J -Sc -W0.5p -Gyellow -O -K << EOF >> $ps
+44.2 32.4 0.20c
+EOF
+gmt pstext -R -J -N -O -K \
+-F+f10p,13,black+jLB >> $ps << EOF
+44.7 35.1 Sulaymaniya
+EOF
+gmt psxy -R -J -Sc -W0.5p -Gyellow -O -K << EOF >> $ps
+45.0 35.0 0.20c
+EOF
+gmt pstext -R -J -N -O -K \
+-F+f10p,13,white+jLB >> $ps << EOF
+46.1 31.1 Al Nasiriya
+EOF
+gmt psxy -R -J -Sc -W0.5p -Gyellow -O -K << EOF >> $ps
+46.0 31.0 0.20c
+EOF
+gmt pstext -R -J -N -O -K \
+-F+f10p,13,white+jLB >> $ps << EOF
+46.8 30.7 Al Amarah
+EOF
+gmt psxy -R -J -Sc -W0.5p -Gyellow -O -K << EOF >> $ps
+47.0 31.0 0.20c
+EOF
+gmt pstext -R -J -N -O -K \
+-F+jTL+f10p,25,red+jLB >> $ps << EOF
+46.5 36.5 I R A N
+EOF
+gmt pstext -R -J -N -O -K \
+-F+jTL+f10p,25,red+jLB >> $ps << EOF
+39.0 30.5 S A U D I  A R A B I A
+EOF
+gmt pstext -R -J -N -O -K \
+-F+jTL+f10p,25,red+jLB >> $ps << EOF
+38.5 35.5 S Y R I A
+EOF
+gmt pstext -R -J -N -O -K \
+-F+jTL+f10p,25,red+jLB >> $ps << EOF
+38.1 32.4 JORDAN
+EOF
+gmt pstext -R -J -N -O -K \
+-F+jTL+f10p,25,red+jLB >> $ps << EOF
+39.0 37.5 T U R K E Y
+EOF
+gmt pstext -R -J -N -O -K \
+-F+jTL+f17p,25,khaki1+jLB >> $ps << EOF
+41.8 33.5 I      R      A      Q
+EOF
+gmt pstext -R -J -N -O -K \
+-F+f12p,13,darkorange4+jLB >> $ps << EOF
+39.8 33.1 Syrian
+39.8 32.7 Desert
+EOF
+gmt pstext -R -J -N -O -K \
+-F+f12p,13,orangered4+jLB+a-45 -Gwhite@30 >> $ps << EOF
+43.5 37.1 Jabal Hamrin
+EOF
+gmt pstext -R -J -N -O -K \
+-F+f12p,13,darkorange4+jLB >> $ps << EOF
+41.6 35.2 Al-Jazira
+EOF
+
+# Add GMT logo
+gmt logo -Dx7.0/-2.0+o0.1i/0.1i+w2c -O -K >> $ps
+
+# Add subtitle
+gmt pstext -R0/10/0/15 -JX10/10 -X0.5c -Y11.0c -N -O \
+    -F+f10p,25,black+jLB >> $ps << EOF
+3.0 9.0 Global satellite derived gravity grid (CryoSat-2 and Jason-1).
+EOF
+
+# Convert to image file using GhostScript
+gmt psconvert Grav_IQ.ps -A0.2c -E720 -Tj -Z
