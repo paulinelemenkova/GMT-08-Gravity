@@ -54,7 +54,7 @@ gmt psscale -Dg277/-5.6+w16.5c/0.4c+h+o0.0/0i+ml+e -R -J -Ccolors.cpt \
     --FONT_ANNOT_PRIMARY=7p,Helvetica,black \
     --FONT_TITLE=8p,25,black \
     -Bg50f5a50+l"Color scale 'Rainbow': magenta-blue-cyan-green-yellow-red [C=HSV -T-150/250]" \
-    -I0.2 -By+lm -O -K >> $ps
+    -I0.2 -By+l"mGal" -O -K >> $ps
 
 # Add scale, directional rose
 gmt psbasemap -R -J \
