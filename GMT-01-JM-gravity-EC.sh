@@ -1,5 +1,5 @@
 #!/bin/sh
-# Purpose: geoid of Ecuador
+# Purpose: free-air gravity of Ecuador
 # GMT modules: gmtset, gmtdefaults, grdcut, makecpt, grdimage, psscale, grdcontour, psbasemap, gmtlogo, psconvert
 # http://soliton.vm.bytemark.co.uk/pub/cpt-city/njgs/index.html
 
