@@ -53,7 +53,7 @@ gmt psscale -Dg277/-5.6+w16.5c/0.4c+h+o0.0/0i+ml+e -R -J -Ccolors.cpt \
     --FONT_ANNOT_PRIMARY=7p,Helvetica,black \
     --FONT_TITLE=8p,25,black \
     -Bg20f2a20+l"Color scale 'haxby' B. Haxby's color scheme for geoid & gravity [C=RGB -T-342/460]" \
-    -I0.2 -By+lm -O -K >> $ps
+    -I0.2 -By+l"mGal" -O -K >> $ps
 
 # Add scale, directional rose
 gmt psbasemap -R -J \
