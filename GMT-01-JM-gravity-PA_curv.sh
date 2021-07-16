@@ -1,7 +1,7 @@
 #!/bin/sh
-# Purpose: free-air gravity of Panama
+# Purpose: vertical gradient of gravity in Panama
 # GMT modules: gmtset, gmtdefaults, img2grd, makecpt, grdimage, psscale, grdcontour, psbasemap, gmtlogo, psconvert, pscoast
-# http://soliton.vm.bytemark.co.uk/pub/cpt-city/pj/4/index.html
+# http://soliton.vm.bytemark.co.uk/pub/cpt-city/pj/5/tn/anotherrainbow.png.index.html
 
 # GMT set up
 gmt set FORMAT_GEO_MAP=dddF \
